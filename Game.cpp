@@ -1,9 +1,11 @@
 #include "Game.h"
 #include "TextureManager.h"
 #include "Collision.h"
+#include "Renderer.h"
 
-SDL_Rect desRect{500, 592, 64, 64};
-SDL_Rect desRect2{ 0, 656, 1080, 64 };
+
+SDL_Rect desRect{ 500, 592, 64, 64 };
+SDL_Rect floorRect{ 0, 656, 1080, 64 };
 
 void Game::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen) {
 
@@ -22,7 +24,9 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
 
 		texture = TextureManager::getTex(renderer, "assets/stone.bmp");
-		floorTex = TextureManager::getTex(renderer, "assets/floor.bmp");
+		floorTex = TextureManager::getTex(renderer, "assets/floorTes.bmp");
+		cubeTex = TextureManager::getTex(renderer, "assets/Cube.bmp");
+
 
 		m_Running = true;
 
@@ -41,26 +45,16 @@ void Game::handleEvents() {
 		break;
 	case SDL_KEYDOWN:
 		switch (event.key.keysym.sym) {
+		case SDLK_ESCAPE:
+			m_Running = false;
+			break;
 		case SDLK_a:
-			cout << "A pressed\n";
-			desRect.x -= 7;
+			//cout << "A pressed\n";
+			arrow1 = -1;
 			break;
 		case SDLK_d:
-			cout << "D pressed\n";
-			desRect.x += 7;
-			break;
-		default:
-			break;
-		}
-	case SDL_KEYUP:
-		switch (event.key.keysym.sym) {
-		case SDLK_a:
-			cout << "A pressed\n";
-			arrow1 = 0;
-			break;
-		case SDLK_d:
-			cout << "D pressed\n";
-			arrow1 = 0;
+			//cout << "D pressed\n";
+			arrow1 = 1;
 			break;
 		default:
 			break;
@@ -73,38 +67,34 @@ void Game::handleEvents() {
 
 void Game::update() {
 
-	/*if (arrow3 == 0) {
-
-		arrow1++;
-		desRect.x = arrow1;
-
-		arrow3 = (arrow1 == 1016) ? 1 : 0;
-
+	if (desRect.x == -1) {
+		desRect.x = 0;
+	}
+	else if (desRect.x == 1018) {
+		desRect.x = 1017;
 	}
 	else {
-
-		arrow1--;
-		desRect.x = arrow1;
-
-		arrow3 = (arrow1 == 0) ? 0 : 1;
-	}*/
-
-
-	
-	
-
-	if (Collision::AABB(desRect, desRect2) && arrow2 == 0) {
-		cout << "The object touched the floor\n";
-		arrow2++;
+		desRect.x += arrow1;
 	}
+
+
+	/*if (Collision::AABB(desRect, cubeRect) && counter == 0) {
+		cout << "The object collected the cube\n";
+		counter++;
+
+		cout << "Counter : " << counter << "\n";
+
+	}*/
 
 }
 
 void Game::render() {
 
 	SDL_RenderClear(renderer);
+	//SDL_RenderCopy(renderer, cubeTex, NULL, &cubeRect);
+	Renderer::renderAll(renderer);
 	SDL_RenderCopy(renderer, texture, NULL, &desRect);
-	SDL_RenderCopy(renderer, floorTex, NULL, &desRect2);
+	SDL_RenderCopy(renderer, floorTex, NULL, &floorRect);
 	SDL_RenderPresent(renderer);
 
 }

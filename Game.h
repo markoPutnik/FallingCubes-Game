@@ -1,8 +1,11 @@
 #pragma once
 #include <SDL.h>
 #include <iostream>
+#include <vector>
+#include <cstdlib>
 
 using std::cout;
+using std::vector;
 
 class Game {
 
@@ -16,13 +19,13 @@ private:
 public:
 
 	SDL_Renderer* renderer;
+
 	SDL_Texture* texture;
 	SDL_Texture* floorTex;
+	SDL_Texture* cubeTex;
 
 	int arrow1 = 0;
-	int arrow2 = 0;
-	int arrow3 = 0;
-	int movement = 0;
+	int counter = 0;
 
 	Game() {
 		m_Running = false;
