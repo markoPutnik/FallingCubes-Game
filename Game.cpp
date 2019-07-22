@@ -14,12 +14,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
 
 		window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
-		if (window)
-			cout << "Window created\n";
 
 		renderer = SDL_CreateRenderer(window, -1, 0);
-		if (renderer)
-			cout << "Renderer created\n";
 
 		SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
 
@@ -49,11 +45,9 @@ void Game::handleEvents() {
 			m_Running = false;
 			break;
 		case SDLK_a:
-			//cout << "A pressed\n";
 			arrow1 = -1;
 			break;
 		case SDLK_d:
-			//cout << "D pressed\n";
 			arrow1 = 1;
 			break;
 		default:
@@ -78,20 +72,17 @@ void Game::update() {
 	}
 
 
-	/*if (Collision::AABB(desRect, cubeRect) && counter == 0) {
-		cout << "The object collected the cube\n";
-		counter++;
-
-		cout << "Counter : " << counter << "\n";
-
-	}*/
+	Renderer::checkCollision(desRect, floorRect);
+	if(Renderer::returnFloor() == 5){
+		m_Running = false;
+		cout << " ------- GAME OVER --------\n";
+	}
 
 }
 
 void Game::render() {
 
 	SDL_RenderClear(renderer);
-	//SDL_RenderCopy(renderer, cubeTex, NULL, &cubeRect);
 	Renderer::renderAll(renderer);
 	SDL_RenderCopy(renderer, texture, NULL, &desRect);
 	SDL_RenderCopy(renderer, floorTex, NULL, &floorRect);
