@@ -7,6 +7,8 @@
 
 using namespace std;
 
+bool m_Win = false;
+
 int m_counter = 0;
 int m_counter2 = 0;
 int testing = 0;
@@ -27,17 +29,12 @@ SDL_Rect cubeRect12{ rand() % 1018, -4400, 22, 22 };
 SDL_Rect cubeRect13{ rand() % 1018, -4800, 22, 22 };
 SDL_Rect cubeRect14{ rand() % 1018, -5200, 22, 22 };
 SDL_Rect cubeRect15{ rand() % 1018, -5600, 22, 22 };
-SDL_Rect cubeRect16{ rand() % 1018, -6000, 22, 22 };
+SDL_Rect cubeRect16{ (rand() % 1018) - 200 , -6000, 22, 22 };
 SDL_Rect cubeRect17{ rand() % 1018, -6400, 22, 22 };
 SDL_Rect cubeRect18{ rand() % 1018, -6800, 22, 22 };
-SDL_Rect cubeRect19{ rand() % 1018, -7200, 22, 22 };
-SDL_Rect cubeRect20{ rand() % 1018, -7600, 22, 22 };
 
 
 class Renderer {
-private:
-
-	
 
 public:
 
@@ -54,6 +51,7 @@ public:
 			testing++;
 			cubeRect1.x = -70;
 			cout << "Counter : " << m_counter << "\n";
+			
 		}
 		else if(Collision::AABB(rec2, cubeRect1) && testing2 == 0){
 			m_counter2++;
@@ -272,7 +270,6 @@ public:
 		}
 
 
-
 		if (Collision::AABB(rec, cubeRect17) && (testing >= 0 && testing < 17)) {
 			m_counter++;
 			testing++;
@@ -292,6 +289,9 @@ public:
 			testing++;
 			cubeRect18.x = -70;
 			cout << "Counter : " << m_counter << "\n";
+
+			m_Win = true;
+
 		}
 		else if (Collision::AABB(rec2, cubeRect18) && testing2 >= 0 && testing2 < 18) {
 			m_counter2++;
@@ -300,38 +300,14 @@ public:
 		}
 
 
-
-		if (Collision::AABB(rec, cubeRect19) && (testing >= 0 && testing < 19)) {
-			m_counter++;
-			testing++;
-			cubeRect19.x = -70;
-			cout << "Counter : " << m_counter << "\n";
-		}
-		else if (Collision::AABB(rec2, cubeRect19) && testing2 >= 0 && testing2 < 19) {
-			m_counter2++;
-			testing2++;
-			cubeRect19.x = -70;
-		}
-
-
-
-		if (Collision::AABB(rec, cubeRect20) && (testing >= 0 && testing < 20)) {
-			m_counter++;
-			testing++;
-			cubeRect20.x = -70;
-			cout << "Counter : " << m_counter << "\n";
-		}
-		else if (Collision::AABB(rec2, cubeRect20) && testing2 >= 0 && testing2 < 20) {
-			m_counter2++;
-			testing2++;
-			cubeRect20.x = -70;
-		}
-
-
 	}
 
 	static int returnFloor() {
 		return m_counter2;
+	}
+
+	static bool returnWin() {
+		return m_Win;
 	}
 
 	static void renderAll(SDL_Renderer* ren) {
@@ -354,8 +330,7 @@ public:
 		SDL_Texture* cubeTex16 = TextureManager::getTex(ren, "assets/Cube.bmp");
 		SDL_Texture* cubeTex17 = TextureManager::getTex(ren, "assets/Cube.bmp");
 		SDL_Texture* cubeTex18 = TextureManager::getTex(ren, "assets/Cube.bmp");
-		SDL_Texture* cubeTex19 = TextureManager::getTex(ren, "assets/Cube.bmp");
-		SDL_Texture* cubeTex20 = TextureManager::getTex(ren, "assets/Cube.bmp");
+	
 
 
 		cubeRect1.y++;
@@ -376,8 +351,7 @@ public:
 		cubeRect16.y++;
 		cubeRect17.y++;
 		cubeRect18.y++;
-		cubeRect19.y++;
-		cubeRect20.y++;
+	
 
 
 		SDL_RenderCopy(ren, cubeTex1, nullptr, &cubeRect1);
@@ -398,8 +372,7 @@ public:
 		SDL_RenderCopy(ren, cubeTex16, nullptr, &cubeRect16);
 		SDL_RenderCopy(ren, cubeTex17, nullptr, &cubeRect17);
 		SDL_RenderCopy(ren, cubeTex18, nullptr, &cubeRect18);
-		SDL_RenderCopy(ren, cubeTex19, nullptr, &cubeRect19);
-		SDL_RenderCopy(ren, cubeTex20, nullptr, &cubeRect20);
+	
 
 	}
 

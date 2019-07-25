@@ -23,6 +23,7 @@ public:
 	SDL_Texture* texture;
 	SDL_Texture* floorTex;
 	SDL_Texture* cubeTex;
+	SDL_Texture* bgTex;
 
 	int arrow1 = 0;
 	int counter = 0;

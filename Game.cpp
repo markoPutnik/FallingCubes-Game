@@ -17,11 +17,12 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 		renderer = SDL_CreateRenderer(window, -1, 0);
 
-		SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
+		//SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
 
 		texture = TextureManager::getTex(renderer, "assets/stone.bmp");
 		floorTex = TextureManager::getTex(renderer, "assets/floorTes.bmp");
 		cubeTex = TextureManager::getTex(renderer, "assets/Cube.bmp");
+		bgTex = TextureManager::getTex(renderer, "assets/bg.bmp");
 
 
 		m_Running = true;
@@ -77,12 +78,17 @@ void Game::update() {
 		m_Running = false;
 		cout << " ------- GAME OVER --------\n";
 	}
+	if (Renderer::returnWin()) {
+		m_Running = false;
+		cout << " --- YOU HAVE WON !!! --- \n";
+	}
 
 }
 
 void Game::render() {
 
 	SDL_RenderClear(renderer);
+	SDL_RenderCopy(renderer, bgTex, NULL, NULL);
 	Renderer::renderAll(renderer);
 	SDL_RenderCopy(renderer, texture, NULL, &desRect);
 	SDL_RenderCopy(renderer, floorTex, NULL, &floorRect);
