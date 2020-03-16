@@ -6,6 +6,7 @@
 
 SDL_Rect desRect{ 500, 592, 64, 64 };
 SDL_Rect floorRect{ 0, 656, 1080, 64 };
+Renderer ren;
 
 void Game::init(const char* title, int xpos, int ypos, int width, int height, bool fullscreen) {
 
@@ -72,15 +73,16 @@ void Game::update() {
 		desRect.x += arrow1;
 	}
 
+	ren.checkCollision(desRect, floorRect);
 
-	Renderer::checkCollision(desRect, floorRect);
-	if(Renderer::returnFloor() == 5){
+	if (ren.points() == 10) {
 		m_Running = false;
-		cout << " ------- GAME OVER --------\n";
+		cout << "You have won\n";
 	}
-	if (Renderer::returnWin()) {
+
+	if (ren.times() == 4) {
 		m_Running = false;
-		cout << " --- YOU HAVE WON !!! --- \n";
+		cout << "You have lost\n";
 	}
 
 }
@@ -89,7 +91,7 @@ void Game::render() {
 
 	SDL_RenderClear(renderer);
 	SDL_RenderCopy(renderer, bgTex, NULL, NULL);
-	Renderer::renderAll(renderer);
+	ren.renderAll(renderer);
 	SDL_RenderCopy(renderer, texture, NULL, &desRect);
 	SDL_RenderCopy(renderer, floorTex, NULL, &floorRect);
 	SDL_RenderPresent(renderer);
