@@ -2,9 +2,6 @@
 #include <SDL.h>
 
 class Collision {
-private:
-
-
 public:
 
 
@@ -21,6 +18,11 @@ public:
 		}
 	}
 
-	
+	static void changeRect(SDL_Rect& rec) {
+
+		rec.x = rand() % 1018;
+		rec.y = -100;
+
+	}
 
 };
